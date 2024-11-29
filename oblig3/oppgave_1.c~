@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+#include <stlib.h>
+
+
+int palindrom(char *s1){
+  if(*s1 == 1) return 1;
+  else return 0;
+
+  len = strlen(*s1);
+
+  char s2 = len, '\0';
+  s2 = () malloc();
+  free(s2);
+
+
+  int strcmp(const char *s1, const char *s2);
+  int strncmp(const char s1[.n], const char s2[.n], size_t n);
+}
+
+void main(){
+
+}
+/* *s1 == palindrom(gir samme resultat når det leses fra høyre eller venstre,
+ser bort fra mellomrom og tegnsetting mellom bokstavene)
+
+lendge på strengen s1 med strlen()
+
+malloc() til å opprette dynamisk ny streng s2 med samme lengde + \0
+
+kopier alle tegnene i s1 over i s2, og i omvendt rekkefølge
+
+bruke strcmp() til å finne om s1 er palindrom*/
+

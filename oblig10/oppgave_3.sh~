@@ -1,0 +1,7 @@
+/*Skriv et shellprogram som har et filnavn som parameter på kommandolinjen. Programmet skal terminere med feilmelding hvis den angitte filen ikke finnes.
+
+Deretter skal programmet gå i en "evig løkke" som "sover" i ett minutt mellom hvert gjennomløp. I hver iterasjon skal det sjekkes om filen gitt som parameter har endret størrelse. Hvis filstørrelsen forandrer seg, skal programmet avslutte med en melding om at filen er endret.
+
+Størrelsen til en fil kan finnes på flere måter i Linux. I denne opgaven kan du bruke filverktøyet stat. Følgende Linux-kommando vil finne størrelsen på filen filename i antall bytes og lagre den i en variabel med navn size:
+
+size=$(stat -c "%s" filename)*/

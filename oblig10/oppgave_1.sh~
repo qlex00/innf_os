@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo -n "Fornavn? "
+read fornavn
+
+antall=$(grep -i ":$fornavn " /etc/passwd | wc -1)
+
+echo "Antall brukere med navnet $fornavn: $antall"

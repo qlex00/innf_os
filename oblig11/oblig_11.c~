@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define FALSE 0
+#define TRUE  1
+
+#define M 100 // Maks. antall ulike typer ressurser
+#define N 100 // Maks. antall prosesser
+int m;        // Antall ulike typer ressurser
+int n;        // Antall prosesser
+int E[M];     // Exists: Totalt antall av hver type ressurs
+int A[M];     // Available: Antall tilgjengelige ressursforekomster
+int C[N][M];  // Current: Antall ressurser hver prosess holder
+int R[N][M];  // Request: Antall ressurser hver prosess trenger
+
+
+// read_file(): Leser prosess- og ressursdata fra fil. Alle data må
+// være ikke-negative heltall.
+//
+void read_file(char *filename)
+{
+   int i, j;
+   FILE *p_file;
+   
+   // Åpner fil og sjekker for feil i åpning
+   p_file = fopen(filename, "r");
+   if (p_file == NULL)
+   { 
+      printf("Feil ved åpning av filen \"%s\"\n", filename); 
+      exit(-1);
+   }
+
+   // Leser antall prosesser og ressurstyper
+   fscanf(p_file, "%d %d", &m, &n);
+
+   // Leser totalt antall ressurser av hver type
+   for (i = 0; i < m; i++)
+     fscanf(p_file, "%d", &E[i]);      
+                            
+   // Leser antall ressurser av hver type som hver prosess holder
+   for (i = 0; i < n; i++)      
+      for (j = 0; j < m; j++) 
+         fscanf(p_file, "%d", &C[i][j]);
+                            
+   // Leser antall ressurser av hver type som hver prosess trenger
+   for (i = 0; i < n; i++)      
+      for (j = 0; j < m; j++) 
+	fscanf(p_file, "%d", &R[i][j]);
+
+   // Beregner antall tilgjengelige ressurser av hver type
+   for (i = 0; i < m; i++) 
+   {
+      A[i] = E[i];
+      for (j = 0; j < n; j++)    
+         A[i] -= C[j][i];
+   }
+}
+
+
+// safe(): Kjører Bankers for å sjekke om systemet er i safe tilstand
+//
+int safe()
+{
+  /*Programmer ferdig funksjonen safe() i programmet ovenfor, slik at den implementerer Bankers algoritme.
+
+Hver gang safe() finner en ny prosess som kan "kjøre ferdig", skal den skrive ut en linje med informasjon om hvilken prosess som er funnet. Det skal også skrives ut hvor mange tilgjengelige ressurser det nå er på systemet (arrayen A), etter at den valgte prosessen er ferdig. For datasettet ovenfor med fem prosesser og fire ressurstyper, der det ikke er deadlock, kan utskriften fra en kjøring se slik ut:
+
+$ ./oblig_11 
+File? T2.txt
+p4 can run   A = [ 2 1 2 1 ]
+p2 can run   A = [ 5 1 3 2 ]
+p1 can run   A = [ 6 2 4 2 ]
+p3 can run   A = [ 6 3 4 2 ]
+p5 can run   A = [ 6 3 4 2 ]
+Safe
+
+For et annet datasett, der det er deadlock, kan utskrift fra kjøring av programmet se slik ut:
+
+$ ./oblig_11 
+File? T3.txt
+p4 can run   A = [ 1 1 2 1 ]
+p1 can run   A = [ 4 1 3 2 ]
+p2 can run   A = [ 4 2 3 2 ]
+p5 can run   A = [ 5 2 3 2 ]
+No more processes can run
+Unsafe
+*/
+}
+
+
+// main(): Leser filnavn med prosess- og ressursdata fra fil og kjører
+// Bankers algoritme
+//
+int main()
+{
+   char filename[100];
+
+   // Leser filnavn fra bruker
+   printf("File? ");
+   scanf("%s", filename);
+
+   // Leser inn data fra fil
+   read_file(filename);
+   
+   // Simulerer Bankers
+   if (safe())
+     printf("Safe\n");
+   else
+     printf("Unsafe\n");
+}

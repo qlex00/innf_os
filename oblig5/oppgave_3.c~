@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+// Matrisemultiplikasjon: Beregner produktet C = AB
+
+#define MAX 64 // Maksimalt antall rader/kolonner
+
+int A[MAX][MAX], // De tre matrisene som skal brukes
+    B[MAX][MAX], // deklareres globalt, slik at de er
+    C[MAX][MAX]; // tilgjengelige for alle funksjoner
+
+int N; // Antall rader og kolonner
+
+char *filnavn_A = "A.txt", // Navn på de tre filene
+     *filnavn_B = "B.txt", // som brukes til å
+     *filnavn_C = "C.txt"; // lagre matrisene
+
+// Leser inn N og dataene for A og B fra filer
+void les_AB()
+{
+  FILE *fil_A, *fil_B;
+  int tmp, i, j;
+
+  fil_A = fopen(filnavn_A, "r");
+  fil_B = fopen(filnavn_B, "r");
+  if (fil_A == NULL || fil_B == NULL)
+  {
+    printf("Feil: Kan ikke åpne fil\n");
+    exit(-1);
+  }
+
+  fscanf(fil_A, "%d", &N);
+  if (N > MAX)
+  {
+    printf("Feil: N > %d\n", MAX);
+    exit(-1);
+  }
+  fscanf(fil_B, "%d", &tmp);
+  if (N != tmp)
+  {
+    printf("Feil: Matrisene har ulike dimensjoner\n");
+    exit(-1);
+  }
+
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++)
+    {
+      fscanf(fil_A, "%d", &A[i][j]);
+      fscanf(fil_B, "%d", &B[i][j]);
+    }
+  
+  fclose(fil_A);
+  fclose(fil_B);
+}
+
+// Skriver resultatet C = AB ut til fil
+void skriv_C()
+{
+  FILE *fil_C;
+  int i, j;
+
+  fil_C = fopen(filnavn_C, "w");
+  if (fil_C == NULL)
+  {
+    printf("Feil: Kan ikke Ã¥pne fil\n");
+    exit(-1);
+  }
+
+  fprintf(fil_C, "%d\n", N);
+  for (i = 0; i < N; i++)
+  {
+    for (j = 0; j < N; j++)
+      fprintf(fil_C, "%d ", C[i][j]);
+    fprintf(fil_C, "\n");
+  }
+  
+  fclose(fil_C);
+}
+
+void multipliser_AB()
+{
+  int i, j, k;
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++)
+    {
+      C[i][j] = 0;
+      for (k = 0; k < N; k++)
+	C[i][j] += A[i][k] * B[k][j];
+    }
+}
+
+// Hovedprogram
+int main()
+{
+
+  pthread_create();
+  pthread_join();
+  
+  les_AB();
+  multipliser_AB();
+  skriv_C();
+}
+/*Skriv om programmet for matrisemultiplikasjon, slik at det bruker 4 tråder.
+Hver tråd skal beregne produktet C=AB for en fjerdedel av radene i matrisen C.
+
+Den enkleste måten å få til dette på, er å la hver tråd starte med å kjøre funksjonen multipliser_AB().
+Funksjonen må da skrives om noe, slik at den kan brukes som parameter i pthread_create().
+Du trenger å gi funksjonen en parameter, som angir hvilken rad i C den skal starte med å beregne.
+Du må også sørge for at funksjonen ikke beregner mer enn en fjerdedel av radene i C.
+
+Hovedprogrammet main() må også skrives om, slik at det starter alle de fire trådene og
+deretter venter til de er ferdige før resultatet skrives ut.
+Du skal ikke trenge å gjøre noe med koden som leser inn og skriver ut matriser til/fra fil.
+
+Det kreves bare at programmet du skriver virker for 4 tråder og 64x64 matriser,
+som er størrelsen på de to testfilene A.txt og B.txt som er gitt.
+Men du kan gjerne skrive et mer generelt program som fungerer for ulike antall tråder og matrisestørrelser.*/

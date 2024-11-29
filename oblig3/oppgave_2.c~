@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  int n, *A;
+
+  printf("Skriv inn antall for n: ");
+  scanf("%d", &n);
+  
+  A = (int*) malloc(n * sizeof(int));
+
+  for(int i = 0; i < n; i++){
+    printf("Skriv inn en verdi for n som heltall for tall nr %d: ", i + 1);
+    scanf("%d", &A[i]);
+  }
+
+  printf("Omvendt rekkefølge:\n");
+  for(int i = n - 1; i >= 0; i--) {
+    printf("%d\n", A[i]); 
+  }
+  
+  free(A);
+  return 0; 
+}
+

@@ -1,0 +1,8 @@
+/*Skriv et shellprogram som har to parametere. Begge parametrene må være eksisterende kataloger der vi har skrivetilgang, ellers skal programmet avbrytes med feilmelding.
+
+Programmet skal flytte alle filer i den første katalogen, som har et filnavn som slutter på .mp3, over i den andre katalogen. Det skal også skrive ut hvor mange filer som er flyttet.
+
+Utskriften fra en kjøring av programmet (som ligger på filen oppgave_2.sh) kan se slik ut:
+
+$ ./oppgave_2.sh tempdir musikkarkiv
+Flyttet 2 mp3-filer fra tempdir til musikkarkiv*/

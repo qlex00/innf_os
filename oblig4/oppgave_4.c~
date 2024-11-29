@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <string.h>
+#include <unistd.h>
+#include <signal.h>
+int main(){
+  pid_t child;
+  int status = 0;
+  
+  child = fork();
+  
+  if (child == 0){
+    
+  char *argv[3];
+  argv[0] = strdup("ping");
+  argv[1] = strdup("vg.no");
+  argv[2] = NULL;
+  
+  execvp(argv[0], argv);
+  exit(1);
+  }else{
+    sleep(5);
+  //kill(child, SIGINT);
+  kill(child,SIGKILL);
+  waitpid(child, &status, 0);
+  if(WIFEXITED(status)){
+    printf("Barneprosessen avsluttes med status %d\n",WEXITSTATUS(status));
+  }else{
+    printf("Barneprosessen avluttet med en feil\n");
+  }
+  
+}
+  return 0;
+}
+/*Legg gjerne inn en kommentar i koden din som forklarer forskjellen.*/
